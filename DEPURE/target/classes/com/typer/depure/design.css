@@ -1,0 +1,8 @@
+.roundButton{
+    -fx-background-color: #3498db;
+    -fx-background-radius: 100em
+    -fx-mini-height: 100px;
+    -fx-mini-width: 100px
+    -fx-max-width: 100px:
+    -fx-max-height: 100px;
+}

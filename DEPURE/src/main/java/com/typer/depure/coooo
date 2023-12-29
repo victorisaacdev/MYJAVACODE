@@ -1,0 +1,92 @@
+package com.typer.depure;
+
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+
+public class welcomeSceneController {
+    @FXML
+    private TextField username;
+    @FXML
+    private PasswordField passField;
+    @FXML
+    private Button submitButton;
+    @FXML
+    private Label passLabel;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+    private int ver = 8;
+
+    public void initialize() {
+        submitButton.setDisable(true);
+//        username.textProperty().addListener((observable, oldValue, newValue) -> updateButton());
+//        username.textProperty().addListener((observable, oldValue, newValue) -> updateButton());
+        username.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                updateButton();
+            }
+        });
+        passField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                updateButton();
+            }
+        });
+
+    }
+
+    public void updateButton() {
+        if (username.getText().trim().isEmpty() || passField.getText().trim().isEmpty()|| passField.getText().length()<= ver ){
+            passLabel.setVisible(true);
+            passLabel.setTextFill(Color.RED);
+            submitButton.setDisable(true);
+        }
+        else {
+            submitButton.setDisable(false);
+            passLabel.setVisible(false);
+            submitButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("QuestionScene.fxml"));
+                        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            });
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
